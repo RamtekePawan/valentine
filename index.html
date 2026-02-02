@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Be My Valentine 💖</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     * {
@@ -25,22 +25,20 @@
     }
 
     .card {
-      background: rgba(0, 0, 0, 0.2);
-      padding: 24px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 28px;
       border-radius: 20px;
       width: 100%;
       max-width: 360px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       position: relative;
     }
 
     h1 {
-      font-size: clamp(22px, 5vw, 28px);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     p {
-      font-size: clamp(14px, 4vw, 16px);
       margin-bottom: 24px;
       line-height: 1.4;
     }
@@ -48,8 +46,8 @@
     .buttons {
       display: flex;
       justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
+      gap: 16px;
+      position: relative;
     }
 
     button {
@@ -65,80 +63,86 @@
     #yes {
       background: #2ecc71;
       color: white;
+      z-index: 2;
     }
 
     #no {
       background: #e74c3c;
       color: white;
-      position: fixed;
-      transition: left 0.2s ease, top 0.2s ease;
+      position: relative;
+      transition: transform 0.25s ease;
+      z-index: 1;
     }
   </style>
 </head>
 
 <body>
-
   <div class="card">
     <h1>Hey Love 💕</h1>
     <p>
-      From my heart to this screen...<br>
+      From my heart to this screen...<br />
       Will you be my Valentine?
     </p>
 
     <div class="buttons">
-      <button id="yes" onclick="sayYes()">Yes 😍</button>
+      <button id="yes">Yes 😍</button>
       <button id="no">No 😜</button>
     </div>
   </div>
 
-<script>
-  const noBtn = document.getElementById("no");
+  <script>
+    const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
 
-  function moveNo() {
-    const padding = 20;
-    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+    function moveNoButton() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+      const btnRect = noBtn.getBoundingClientRect();
 
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-  }
+      const maxX = vw / 2 - btnRect.width;
+      const maxY = vh / 2 - btnRect.height;
 
-  // Detect if device is mobile
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const x = (Math.random() * maxX * 2) - maxX;
+      const y = (Math.random() * maxY * 2) - maxY;
 
-  if (isMobile) {
-    // 📱 Mobile → click
-    noBtn.addEventListener("click", moveNo);
-  } else {
-    // 🖥️ Desktop → hover
-    noBtn.addEventListener("mouseover", moveNo);
-  }
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
 
-  function sayYes() {
-    document.body.innerHTML = `
-      <div style="
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        background: linear-gradient(135deg, #ff4d6d, #ff758f);
-        color: white;
-        font-family: Arial;
-        text-align: center;
-        padding: 20px;
-      ">
-        <h1 style="font-size: clamp(26px, 7vw, 36px);">YAYYYY 💖</h1>
-        <p style="font-size: clamp(16px, 4vw, 18px);">
-          You just made me the happiest person alive 😍
-        </p>
-      </div>
-    `;
-  }
-</script>
+    const isMobile =
+      /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
+    if (isMobile) {
+      // 📱 Mobile → move on touch
+      noBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        moveNoButton();
+      });
+    } else {
+      // 💻 Desktop → move on hover
+      noBtn.addEventListener("mouseenter", moveNoButton);
+    }
+
+    yesBtn.addEventListener("click", () => {
+      document.body.innerHTML = `
+        <div style="
+          min-height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          background: linear-gradient(135deg, #ff4d6d, #ff758f);
+          color: white;
+          font-family: Arial;
+          text-align: center;
+          padding: 20px;
+        ">
+          <h1>YAYYYY 💖</h1>
+          <p>You just made me the happiest person alive 😍</p>
+        </div>
+      `;
+    });
+  </script>
 </body>
 </html>
