@@ -91,49 +91,54 @@
     </div>
   </div>
 
-  <script>
-    const noBtn = document.getElementById("no");
+<script>
+  const noBtn = document.getElementById("no");
 
-    function moveNo() {
-      const padding = 20;
-      const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-      const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+  function moveNo() {
+    const padding = 20;
+    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
 
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
 
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-    }
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  }
 
-    // Desktop hover
+  // Detect if device is mobile
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    // 📱 Mobile → click
+    noBtn.addEventListener("click", moveNo);
+  } else {
+    // 🖥️ Desktop → hover
     noBtn.addEventListener("mouseover", moveNo);
+  }
 
-    // Mobile touch
-    noBtn.addEventListener("touchstart", moveNo);
-
-    function sayYes() {
-      document.body.innerHTML = `
-        <div style="
-          min-height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          background: linear-gradient(135deg, #ff4d6d, #ff758f);
-          color: white;
-          font-family: Arial;
-          text-align: center;
-          padding: 20px;
-        ">
-          <h1 style="font-size: clamp(26px, 7vw, 36px);">YAYYYY 💖</h1>
-          <p style="font-size: clamp(16px, 4vw, 18px);">
-            You just made me the happiest person alive 😍
-          </p>
-        </div>
-      `;
-    }
-  </script>
+  function sayYes() {
+    document.body.innerHTML = `
+      <div style="
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: linear-gradient(135deg, #ff4d6d, #ff758f);
+        color: white;
+        font-family: Arial;
+        text-align: center;
+        padding: 20px;
+      ">
+        <h1 style="font-size: clamp(26px, 7vw, 36px);">YAYYYY 💖</h1>
+        <p style="font-size: clamp(16px, 4vw, 18px);">
+          You just made me the happiest person alive 😍
+        </p>
+      </div>
+    `;
+  }
+</script>
 
 </body>
 </html>
